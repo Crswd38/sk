@@ -1,0 +1,112 @@
+
+on join:
+	if {Stat.%player%} is not set:
+		set {Stat.%player%} to true
+		set {Stat::%player%.스텟포인트} to 0
+		set {Stat::%player%.외공} to 0
+		set {Stat::%player%.내공} to 0
+		set {Stat::%player%.보법} to 0
+
+		set {Stats::%player%.체력} to 0
+		set {Stats::%player%.방어력} to 0
+		set {Stats::%player%.공격력} to 0
+		set {Stats::%player%.체력흡수} to 0
+		set {Stats::%player%.치명타확률} to 0
+		set {Stats::%player%.외공} to 0
+		set {Stats::%player%.내공} to 0
+		set {Stats::%player%.보법} to 0
+		set {Stats::%player%.방어구외공} to 0
+		set {Stats::%player%.방어구내공} to 0
+		set {Stats::%player%.방어구보법} to 0
+
+command /스텟: 
+	aliases: /tmxpt, /stat, /st
+	trigger:
+		OpenStat(player)
+
+function OpenStat(p:player):
+	open chest with 3 rows named "&f[ &6Stat&f ] &0스텟창" to {_p}
+	set slot 0 and 1 and 2 and 3 and 5 and 6 and 7 and 8 and 9 and 10 and 12 and 14 and 16 and 17 and 18 and 19 and 20 and 21 and 22 and 23 and 24 and 25 and 26 of current inventory of {_p} to black stained glass pane named "&0"
+	set slot 4 of current inventory of {_p} to book and quill named "&f《%{_p}%》님의 남은 스텟: %{Stat::%{_p}%.스텟포인트}%"
+	set slot 11 of current inventory of {_p} to diamond sword named "&f『 외공 』" with lore "&7▶현재 외공 : %{Stat::%{_p}%.외공}%" and "&7    공격력 : %{Stat::%{_p}%.외공}*2.2%" and "&7      체력 : %{Stat::%{_p}%.외공}*10%" and "&9%nl%&a외공 1당 공격력 2.2, 체력 10 증가&9%nl%" and "&7▶합계 외공 : %{Stats::%{_p}%.외공}%"
+	set slot 13 of current inventory of {_p} to diamond chestplate named "&f『 내공 』" with lore "&7▶현재 외공 : %{Stat::%{_p}%.내공}%" and "&7    공격력 : %{Stat::%{_p}%.내공}*1%" and  "&7      체력 : %{Stat::%{_p}%.내공}*40%" and "&9%nl%&a내공 1당 공격력 1.0, 체력 40 증가&9%nl%" and "&7▶합계 내공 : %{Stats::%{_p}%.내공}%"
+	set slot 15 of current inventory of {_p} to diamond boots named "&f『 보법 』" with lore "&7▶현재 보법 : %{Stat::%{_p}%.보법}%" and "&7    공격력 : %{Stat::%{_p}%.보법}*1.5%" and "&7  이동속도 : %{Stat::%{_p}%.보법}*0.02% " and "&9%nl%&a보법 스텟 1당 공격력 2.0, 이동속도 0.02 증가&9%nl%" and "&7▶합계 보법 : %{Stats::%{_p}%.보법}%"
+
+on inventory click:
+	if inventory name of current inventory of player is "&f[ &6Stat&f ] &0스텟창":
+		cancel event
+		if clicked item is not black stained glass pane:
+			play sound "entity.experience_orb.pickup" with volume 0.5 to the player
+			if {Stat::%player%.스텟포인트} is bigger than 0:
+				subtract 1 from {Stat::%player%.스텟포인트}
+				if clicked raw slot is 11:
+					add 1 to {Stat::%player%.외공}
+					wait 1 tick
+					OpenStat(player)
+				else if clicked raw slot is 13:
+					add 1 to {Stat::%player%.내공}
+					wait 1 tick
+					OpenStat(player)
+				else if clicked raw slot is 15:
+					add 1 to {Stat::%player%.보법}
+					wait 1 tick
+					OpenStat(player)
+				else:
+					add 1 to {Stat::%player%.스텟포인트}
+			else:
+				play sound "ui.button.click" to player
+				message "&c스텟포인트가 부족합니다."
+
+command /스텟설정 [<integer>] [<integer>] [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/스텟설정 <외공> <내공> <보법>"
+			else:
+				set {Stat::%player%.외공} to arg-1
+				set {Stat::%player%.내공} to arg-2
+				set {Stat::%player%.보법} to arg-3
+
+command /스텟포인트추가 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/스탯포인트추가 <숫자>"
+			else:
+				add arg-1 to {Stat::%player%.스탯포인트}
+	
+command /보법추가 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/보법추가 <숫자>"
+			else:
+				add arg-1 to {Stat::%player%.보법}
+	
+command /내공추가 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/내공추가 <숫자>"
+			else:
+				add arg-1 to {Stat::%player%.내공}
+
+command /외공추가 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/외공추가 <숫자>"
+			else:
+				add arg-1 to {Stat::%player%.외공}
+
+command /스텟초기화 [<text>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/스텟초기화 <이름>"
+			else:
+				set {s.%arg-1%} to true
+				set {Stat::%arg-1%.스텟포인트} to 0
+				set {Stat::%arg-1%.외공} to 0
+				set {Stat::%arg-1%.내공} to 0
+				set {Stat::%arg-1%.보법} to 0

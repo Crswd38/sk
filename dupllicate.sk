@@ -1,0 +1,18 @@
+
+on join:
+	if {Guibug.%player%} is true:
+		set {Guibug.%player%} to false
+
+on command:
+	if player is op:
+		stop
+	set {Guibug.%player%} to true
+	wait 40 tick
+	set {Guibug.%player%} to false
+
+on right click on chest or ender chest or trapped chest:
+	if player is op:
+		stop
+	if {Guibug.%player%} is true:
+		cancel event
+		send "&f[&e&lsystem&f] &c&l복사버그 방지"

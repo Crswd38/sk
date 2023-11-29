@@ -1,0 +1,21 @@
+
+on damage:
+	if {team.%attacker%.팀} == {team.%victim%.팀}:
+		cancel event
+	else:
+		if attacker is player:
+			add ({Stats::%attacker%.외공})/2*2.2 to damage
+			add ({Stats::%attacker%.내공})/2*1 to damage
+			add ({Stats::%attacker%.보법})/2*2 to damage
+			
+			if {Stats::%attacker%.공격력} is set:
+				add {Stats::%attacker%.공격력}/2 to damage
+			if {Stats::%attacker%.체력흡수} is set:
+				add {Stats::%attacker%.체력흡수}/2 to attacker's health
+			if {Stats::%attacker%.치명타확률} is set:
+				chance of {Stats::%attacker%.치명타확률}%:
+					set damage to damage*2
+					play sound "block.anvil.land" with volume 0.5 to the attacker
+
+		if victim is player:
+			subtract (damage/50)*({Stats::%victim%.방어력}/2) from damage   

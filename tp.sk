@@ -1,0 +1,3 @@
+command /토너먼트:
+    trigger:
+        teleport player to location(281, 50, -277, world("1"))

@@ -1,0 +1,23 @@
+
+#쓰레기통
+command /쓰레기통:
+	trigger:
+		open chest with 2 rows named "&8쓰레기통" to player
+
+#내구도무한
+on item damage:
+	cancel event
+
+#템 버리기 X
+on drop:
+	if player is non-op:
+		cancel event
+
+#이름변경
+command /name [<text>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/name <이름>"
+			else:
+				set name of player's tool to colored arg-1

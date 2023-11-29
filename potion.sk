@@ -1,0 +1,26 @@
+
+on join:
+    set {포션쿨타임::%player%} to false
+
+command /포션 [<integer>]:
+    trigger:
+        if player is op:
+            if arg-1 is set:
+                give paper named "%arg-1%&d포션" to player
+            else:
+                message "&6/포션 <수치>"
+
+on right click with paper:
+    if {포션쿨타임::%player%} is true:
+        cancel event
+        message "쿨타임입니다"
+    else if name of player's tool contains "포션":
+        set {포션쿨타임::%player%} to true
+        set {_포션} to uncolored name of player's tool
+        replace all "포션" with "" in {_포션}
+        set {_포션} to {_포션} parsed as number
+        heal the player by {_포션}/2 hearts
+        remove 1 paper from player's tool
+        loop 3 times:
+            wait a second
+        set {포션쿨타임::%player%} to false

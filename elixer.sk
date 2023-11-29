@@ -1,0 +1,38 @@
+
+on join:
+    set {영약먹는중::%player%} to false
+
+command /영약 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is set:
+				give paper named "영약" with lore "강도: %arg-2%" and "&5영약" to player
+			else:
+				message "&6/영약 <수치>"
+
+on right click with paper:
+	if {영약먹는중::%player%} is true:
+		cancel event
+	if name of tool is "영약":
+		set {영약먹는중::%player%} to true
+		set {_영약::*} to uncolored lore of player's tool
+		message "영약을 먹는 중입니다"
+		loop 60 times:
+			if {영약먹는중::%player%} is false:
+				exit loop
+			wait a tick
+		message "영약을 먹었습니다!"
+		set {영약먹는중::%player%} to false
+		replace all "강도: " with "" in {_영약::1}
+		set {_영약::1} to {_영약::1} parsed as number
+		remove 1 paper named "영약" with lore "강도: %{_영약::1}%" and "&5영약" from the player
+
+on player move:
+    if {영약먹는중::%player%} is true:
+        set {영약먹는중::%player%} to false
+        message "영약을 그만 먹습니다"
+
+on command:
+	if {영약먹는중::%player%} is true:
+		set {영약먹는중::%player%} to false
+		message "영약을 그만 먹습니다"

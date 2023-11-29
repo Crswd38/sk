@@ -1,0 +1,31 @@
+
+command /채팅청소:
+	trigger:
+		if player is op:
+			loop 100 times:
+				broadcast ""
+
+every 1 seconds:
+	if {청소} is not set:
+		set {청소} to 300
+	subtract 1 from {청소}
+	if {청소} is 10:
+		broadcast "&f[ &bCleaning &f] 10초후 바닥의 아이템이 사라집니다."
+	else if {청소} is 5:
+		broadcast "&f[ &bCleaning &f] 5초후 바닥의 아이템이 사라집니다."
+	else if {청소} is 4:
+		broadcast "&f[ &bCleaning &f] 4초후 바닥의 아이템이 사라집니다."
+	else if {청소} is 3:
+		broadcast "&f[ &bCleaning &f] 3초후 바닥의 아이템이 사라집니다."
+	else if {청소} is 2:
+		broadcast "&f[ &bCleaning &f] 2초후 바닥의 아이템이 사라집니다."
+	else if {청소} is 1:
+		broadcast "&f[ &bCleaning &f] 1초후 바닥의 아이템이 사라집니다."
+	else if {청소} <=0:
+		set {_Deleted} to 0
+		clear {청소}
+		delete {_Deleted}
+		loop all dropped items:
+			add 1 to {_Deleted}
+			clear loop-entity
+		broadcast "&f[ &bCleaning &f] %{_Deleted}%개의 아이템들이 모두 삭제되었습니다."

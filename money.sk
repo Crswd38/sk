@@ -1,0 +1,35 @@
+
+command /돈:
+	trigger:
+		message "&b보유금액 : &6$%{money::%player%}%&b원"
+
+command /돈추가 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/돈추가 <숫자>"
+			else:
+				add arg-1 to {money::%player%}
+
+command /수표 [<integer>]:
+	trigger:
+		if arg-1 is not set:
+			message "&b[수표시스템]&c 발행할 금액을 적어주세요"
+		else if arg-1 <= {money::%player%}:
+			if arg-1 > 0:
+				message "&b[수표시스템]&a 성공적으로 수표를 발행하였습니다"
+				give paper named "&a%arg-1%&a원" with lore "&a 우클릭시 돈을 지급합니다" to player
+				remove arg-1 from {money::%player%}
+			else:
+				message "&b[수표시스템]&c 0원이하의 수표는 발행할수없습니다"
+		else:
+			message "&b[수표시스템]&c 돈이 부족합니다"
+
+on right click with paper:
+	if name of player's tool contains "원":
+		set {_name} to uncolored name of player's tool
+		replace all "원" with "" in {_name}
+		set {_name} to {_name} parsed as number
+		add {_name} to {money::%player%}
+		message "&a 수표를 사용하여 %{_name}%&a원을 지급하였습니다"
+		remove 1 paper from player's tool

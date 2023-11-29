@@ -1,0 +1,190 @@
+
+command /무기강화:
+	aliases: /anrlrkdghk
+	trigger:
+		OpenWeaponUpgrade(player)
+				
+command /외공주문서 [<Integer>] [<Integer>] [<Integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/외공주문서 <외공> <요구외공> <확률>"
+			else:
+				give 1 of paper named "&f[ 강화주문서 ]" with lore "&4외공: %arg-1%" and "&3요구외공: %arg-2%" and "&6확률: %arg-3%" and "&4외공주문서" to player
+
+command /내공주문서 [<Integer>] [<Integer>] [<Integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/내공주문서 <내공> <요구내공> <확률>"
+			else:
+				give 1 of paper named "&f[ 강화주문서 ]" with lore "&2내공: %arg-1%" and "&3요구내공: %arg-2%" and "&6확률: %arg-3%" and "&2내공주문서" to player
+
+command /보법주문서 [<Integer>] [<Integer>] [<Integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/보법주문서 <보법> <요구보법> <확률>"
+			else:
+				give 1 of paper named "&f[ 강화주문서 ]" with lore "&1보법: %arg-1%" and "&3요구보법: %arg-2%" and "&6확률: %arg-3%" and "&1보법주문서" to player
+
+command /공격력주문서 [<Integer>] [<Integer>] [<Integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/공격력주문서 <공격력> <요구레벨> <확률>"
+			else:
+				give 1 of paper named "&f[ 강화주문서 ]" with lore "&4공격력: %arg-1%" and "&3요구레벨: %arg-2%" and "&6확률: %arg-3%" and "&4공격력주문서" to player
+
+command /치명타주문서 [<Integer>] [<Integer>] [<Integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/치명타주문서 <치명타확률> <요구레벨> <확률>"
+			else:
+				give 1 of paper named "&f[ 강화주문서 ]" with lore "&e치명타: %arg-1%" and "&3요구레벨: %arg-2%" and "&6확률: %arg-3%" and "&e치명타주문서" to player
+
+command /체력흡수주문서 [<Integer>] [<Integer>] [<Integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/체력흡수주문서 <체력흡수> <요구레벨> <확률>"
+			else:
+				give 1 of paper named "&f[ 강화주문서 ]" with lore "&2체력흡수: %arg-1%" and "&3요구레벨: %arg-2%" and "&6확률: %arg-3%" and "&2체력흡수주문서" to player
+
+function OpenWeaponUpgrade(p:player):
+	open chest with 3 rows named "&0무기 강화" to {_p}
+	set slot 0 and 1 and 2 and 9 and 11 and 18 and 19 and 20 of current inventory of {_p} to light blue stained glass pane named "&0"
+	set slot 3 and 4 and 5 and 12 and 14 and 21 and 22 and 23 of current inventory of {_p} to yellow stained glass pane named "&0"
+	set slot 6 and 7 and 8 and 15 and 17 and 24 and 26 of current inventory of {_p} to lime stained glass pane named "&0"
+	set slot 25 of current inventory of {_p} to spectral arrow named "&f무기 강화"
+
+on inventory click:
+	if inventory name of current inventory of player is "&0무기 강화":
+		if clicked item is not yellow stained glass pane or light blue stained glass pane or lime stained glass pane:
+			if clicked raw slot is 25:
+				cancel event
+				set {_무기스텟::11} to ""
+				set {_강화주문서::1} to ""
+				set {_type} to 0
+				set {_무기} to slot 10 of current inventory of player
+				set {_무기스텟::*} to uncolored lore of slot 10 of current inventory of player
+				if {_무기스텟::11} is "무기":
+					replace all "■공격력: " with "" in {_무기스텟::1}
+					replace all "■체력흡수: " with "" in {_무기스텟::2}
+					replace all "■치명타확률: " with "" in {_무기스텟::3}
+					replace all "●외공: " with "" in {_무기스텟::4}
+					replace all "●내공: " with "" in {_무기스텟::5}
+					replace all "●보법: " with "" in {_무기스텟::6}
+					replace all "●요구외공: " with "" in {_무기스텟::7}
+					replace all "●요구내공: " with "" in {_무기스텟::8}
+					replace all "●요구보법: " with "" in {_무기스텟::9}
+					replace all "●레벨제한: " with "" in {_무기스텟::10}
+					set {_무기스텟::1} to {_무기스텟::1} parsed as number
+					set {_무기스텟::2} to {_무기스텟::2} parsed as number
+					set {_무기스텟::3} to {_무기스텟::3} parsed as number
+					set {_무기스텟::4} to {_무기스텟::4} parsed as number
+					set {_무기스텟::5} to {_무기스텟::5} parsed as number
+					set {_무기스텟::6} to {_무기스텟::6} parsed as number
+					set {_무기스텟::7} to {_무기스텟::7} parsed as number
+					set {_무기스텟::8} to {_무기스텟::8} parsed as number
+					set {_무기스텟::9} to {_무기스텟::9} parsed as number
+					set {_무기스텟::10} to {_무기스텟::10} parsed as number
+				else:
+					message "무기만 강화할 수 있습니다."
+					exit
+
+				set {_주문서} to slot 13 of current inventory of player
+				set {_강화주문서::*} to uncolored lore of slot 13 of current inventory of player
+				if {_강화주문서::1} is "":
+					message "주문서가 부족합니다"
+					exit
+
+				delete slot 10 of current inventory of player
+				set {_i} to amount of {_주문서} in current inventory of player - 1
+				delete slot 13 of current inventory of player
+				set slot 13 of current inventory of player to {_i} of {_주문서}
+				wait 1 tick
+				OpenWeaponUpgrade(player)
+
+				replace all "확률: " with "" in {_강화주문서::3}
+				set {_강화주문서::3} to {_강화주문서::3} parsed as number
+
+				chance of {_강화주문서::3}%:
+					if {_강화주문서::4} is "외공주문서":
+						replace all "외공: " with "" in {_강화주문서::1}
+						replace all "요구외공: " with "" in {_강화주문서::2}
+						set {_강화주문서::1} to {_강화주문서::1} parsed as number
+						set {_강화주문서::2} to {_강화주문서::2} parsed as number
+						add {_강화주문서::1} to {_무기스텟::4}
+						add {_강화주문서::2} to {_무기스텟::7}
+					else if {_강화주문서::4} is "내공주문서":
+						replace all "내공: " with "" in {_강화주문서::1}
+						replace all "요구내공: " with "" in {_강화주문서::2}
+						set {_강화주문서::1} to {_강화주문서::1} parsed as number
+						set {_강화주문서::2} to {_강화주문서::2} parsed as number
+						add {_강화주문서::1} to {_무기스텟::5}
+						add {_강화주문서::2} to {_무기스텟::8}
+					else if {_강화주문서::4} is "보법주문서":
+						replace all "보법: " with "" in {_강화주문서::1}
+						replace all "요구보법: " with "" in {_강화주문서::2}
+						set {_강화주문서::1} to {_강화주문서::1} parsed as number
+						set {_강화주문서::2} to {_강화주문서::2} parsed as number
+						add {_강화주문서::1} to {_무기스텟::6}
+						add {_강화주문서::2} to {_무기스텟::9}
+					else if {_강화주문서::4} is "공격력주문서":
+						replace all "공격력: " with "" in {_강화주문서::1}
+						replace all "요구레벨: " with "" in {_강화주문서::2}
+						set {_강화주문서::1} to {_강화주문서::1} parsed as number
+						set {_강화주문서::2} to {_강화주문서::2} parsed as number
+						add {_강화주문서::1} to {_무기스텟::1}
+						add {_강화주문서::2} to {_무기스텟::10}
+					else if {_강화주문서::4} is "치명타주문서":
+						replace all "치명타: " with "" in {_강화주문서::1}
+						replace all "요구레벨: " with "" in {_강화주문서::2}
+						set {_강화주문서::1} to {_강화주문서::1} parsed as number
+						set {_강화주문서::2} to {_강화주문서::2} parsed as number
+						add {_강화주문서::1} to {_무기스텟::3}
+						add {_강화주문서::2} to {_무기스텟::10}
+					else if {_강화주문서::4} is "체력흡수주문서":
+						replace all "체력흡수: " with "" in {_강화주문서::1}
+						replace all "요구레벨: " with "" in {_강화주문서::2}
+						set {_강화주문서::1} to {_강화주문서::1} parsed as number
+						set {_강화주문서::2} to {_강화주문서::2} parsed as number
+						add {_강화주문서::1} to {_무기스텟::2}
+						add {_강화주문서::2} to {_무기스텟::10}
+					message "&c무기강화를 성공했습니다."
+				else:
+					message "&c무기강화를 실패했습니다."
+				set slot 16 of current inventory of player to {_무기} with lore "&c■공격력: %{_무기스텟::1}%" and "&4■체력흡수: %{_무기스텟::2}%" and "&e■치명타확률: %{_무기스텟::3}%" and "&3●외공: %{_무기스텟::4}%" and "&3●내공: %{_무기스텟::5}%" and "&3●보법: %{_무기스텟::6}%" and "&3●요구외공: %{_무기스텟::7}%" and "&3●요구내공: %{_무기스텟::8}%" and "&3●요구보법: %{_무기스텟::9}%" and "&b&l●레벨제한: %{_무기스텟::10}%" and "&c무기"	
+		else:
+			cancel event
+
+on inventory close:
+	if icname contains "&0무기 강화":
+		set {_무기강화::*} to slot 10 and 13 and 16 of current inventory of player
+		wait 1 tick
+		loop {_무기강화::*}:
+			if loop-value is not air:
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop loop-value at player's location
+				else:
+					give loop-value to player
+		exit
+
+function onInvFull(p: player) :: boolean:
+    loop all items in the inventory of {_p}:
+        add 1 to {_tmp}
+    if {_p}'s boots is not air:
+        subtract 1 from {_tmp}
+    if {_p}'s leggings is not air:
+        subtract 1 from {_tmp}
+    if {_p}'s chestplate is not air:
+        subtract 1 from {_tmp}
+    if {_p}'s helmet is not air:
+        subtract 1 from {_tmp}
+    if {_tmp} is 36:
+        return true
+    else:
+        return false

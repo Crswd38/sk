@@ -1,0 +1,100 @@
+
+on join:
+	if {rpg.%player%} is not set:
+		set the player's level to 12000
+		set level progress of player to 7842/107842
+		set {rpg.%player%} to true
+		set {rpg.%player%.exp} to 0
+		set {rpg.%player%.lv} to 0
+		set {rpg.%player%.ndlv} to 1000
+
+
+every 10 tick:
+	loop all players:
+		add (level progress of loop-player - 7842/107842)*107842 to {rpg.%loop-player%.exp}
+		set level progress of loop-player to 7842/107842
+		if {rpg.%loop-player%.exp} >= {rpg.%loop-player%.ndlv}:
+			add 1 to {rpg.%loop-player%.lv}
+			add 4 to {Stat::%loop-player%.스텟포인트}
+			subtract {rpg.%loop-player%.ndlv} from {rpg.%loop-player%.exp}
+			message "&6----------------------------------" to loop-player
+			message "레벨이 1 올랐습니다!" to loop-player
+			message "&6----------------------------------" to loop-player
+			spawn firework at loop-player
+			wait 1 tick
+			if {rpg.%loop-player%.lv} < 80:
+				add 100*{rpg.%loop-player%.lv} to {rpg.%loop-player%.ndlv}
+			else:
+				add 500*{rpg.%loop-player%.lv} to {rpg.%loop-player%.ndlv}
+			heal loop-player
+
+command /경험치 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/경험치 <숫자>"
+			else:
+				give 1 of enchanted book named "&e[ &f경험치북 &e] &c[ &f%arg-1% &c]" with lore "%nl%&e▶ &f우클릭 시 %arg-1% &c경험치&f를 획득합니다." to player
+
+on right click holding enchanted book:
+	if name of player's tool contains "경험치북":
+		set {_exp} to uncolored name of player's tool
+		replace all "[" and " " and "경험치북" and " " and "]" and "[" and " " and " " and "]" with "" in {_exp}
+		remove 1 of player's tool from player's tool
+		add ({_exp} parsed as number) to {rpg.%player%.exp}
+		message ""
+		message "&e[ &f경험치 &e] &f경험치북을 사용하여 &c[ &f%{_exp}% &c] &f만큼의 &e경험치&f를 얻으셨습니다."
+		message ""
+
+command /레벨초기화 [<text>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/레벨초기화 <이름>"
+			else:
+				set {rpg.%arg-1%.exp} to 0
+				set {rpg.%arg-1%.lv} to 0
+				set {rpg.%arg-1%.ndlv} to 1000
+
+command /레벨설정 [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/레벨설정 <레벨>"
+			else:
+				set {_ndlv} to 1000
+				loop arg-1 times:
+					if loop-value < 80:
+						add 100*loop-value to {_ndlv}
+					else:
+						add 500*loop-value to {_ndlv}
+				set {rpg.%arg-2%.lv} to arg-1
+				set {rpg.%arg-2%.exp} to 0
+				set {rpg.%arg-2%.ndlv} to {_ndlv}
+
+
+command /초기화 [<text>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/초기화 <이름>"
+			else:
+				set {s.%arg-1%} to true
+				set {Stat::%arg-1%.스텟포인트} to 0
+				set {Stat::%arg-1%.외공} to 0
+				set {Stat::%arg-1%.내공} to 0
+				set {Stat::%arg-1%.보법} to 0
+				set {rpg.%arg-1%.exp} to 0
+				set {rpg.%arg-1%.lv} to 0
+				set {rpg.%arg-1%.ndlv} to 1000
+				set {Stats::%player%.체력} to 0
+				set {Stats::%player%.방어력} to 0
+				set {Stats::%player%.공격력} to 0
+				set {Stats::%player%.체력흡수} to 0
+				set {Stats::%player%.치명타확률} to 0
+				set {Stats::%player%.외공} to 0
+				set {Stats::%player%.내공} to 0
+				set {Stats::%player%.보법} to 0
+				set {Stats::%player%.방어구외공} to 0
+				set {Stats::%player%.방어구내공} to 0
+				set {Stats::%player%.방어구보법} to 0

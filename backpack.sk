@@ -1,0 +1,17 @@
+
+command /가방:
+	trigger:
+		open chest with 6 row named "&0%player%의 창고" to player
+		wait 1 tick
+		set {_temp} to 0
+		loop 54 times:
+			set slot {_temp} of current inventory of player to {chest.%player%::%loop-number%}
+			add 1 to {_temp}	
+				
+on inventory close:
+	if name of top inventory of player contains "%player%의 창고":
+		delete {chest.%player%::*}
+		set {_temp} to 0
+		loop 54 times:
+			add slot {_temp} of event-inventory to {chest.%player%::*}
+			add 1 to {_temp}

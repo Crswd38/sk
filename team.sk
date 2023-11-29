@@ -1,0 +1,43 @@
+
+on join:
+	if {team.%player%} is not set:
+		set {team.%player%} to true
+		set {team.%player%.팀} to "팀"
+
+command /화산:
+	trigger:
+		set {team.%player%.팀} to "화산"
+  
+command /남궁세가:
+	trigger:
+		set {team.%player%.팀} to "남궁세가"
+
+command /사천당가:
+	trigger:
+		set {team.%player%.팀} to "사천당가"
+  
+command /소림:
+	trigger:
+		set {team.%player%.팀} to "소림"
+
+command /북해빙궁:
+	trigger:
+		set {team.%player%.팀} to "북해빙궁"
+  
+command /피의찬탈자:
+	trigger:
+		set {team.%player%.팀} to "피의찬탈자"
+
+command /신1:
+	trigger:
+		if player is op:
+			set {team.%player%.팀} to "신1"
+	
+command /신2:
+	trigger:
+		if player is op:
+			set {team.%player%.팀} to "신2"
+
+command /문파떠나기:
+	trigger:
+		set {team.%player%.팀} to "팀"

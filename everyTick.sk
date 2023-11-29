@@ -1,0 +1,408 @@
+
+on inventory close:
+	set {Stats::%player%.체력} to 0
+	set {Stats::%player%.방어력} to 0
+	set {Stats::%player%.방어구외공} to 0
+	set {Stats::%player%.방어구내공} to 0
+	set {Stats::%player%.방어구보법} to 0
+	set {_lore::*} to uncolored lore of player's helmet
+	loop {_lore::*}:
+		if loop-value contains "■체력:":
+			set {_hp} to loop-value
+			replace all "■체력: " with "" in {_hp}
+			set {_hp} to {_hp} parsed as number
+			add {_hp} to {Stats::%player%.체력}
+		if loop-value contains "■빙어력:":
+			set {_df} to loop-value
+			replace all "■방어력: " with "" in {_df}
+			set {_df} to {_df} parsed as number
+			add {_df} to {Stats::%player%.방어력}
+		if loop-value contains "●외공":
+			set {_oa} to loop-value
+			replace all "●외공: " with "" in {_oa}
+			set {_oa} to {_oa} parsed as number
+			add {_oa} to {Stats::%player%.방어구외공}
+		if loop-value contains "●내공":
+			set {_ia} to loop-value
+			replace all "●내공: " with "" in {_ia}
+			set {_ia} to {_ia} parsed as number
+			add {_ia} to {Stats::%player%.방어구내공}
+		if loop-value contains "●보법":
+			set {_bo} to loop-value
+			replace all "●보법: " with "" in {_bo}
+			set {_bo} to {_bo} parsed as number
+			add {_bo} to {Stats::%player%.방어구보법}
+		if loop-value contains "●레벨제한:":
+			set {_l1} to loop-value
+			replace all "●레벨제한: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {rpg.%player%.lv}:
+				set {_helmet} to player's helmet
+				send "&c&l레벨제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's helmet to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_helmet} at player's location
+				else:
+					give {_helmet} to player
+		if loop-value contains "●요구외공:":
+			set {_l1} to loop-value
+			replace all "●요구외공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.외공}:
+				set {_helmet} to player's helmet
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's helmet to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_helmet} at player's location
+				else:
+					give {_helmet} to player
+		if loop-value contains "●요구내공:":
+			set {_l1} to loop-value
+			replace all "●요구내공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.내공}:
+				set {_helmet} to player's helmet
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's helmet to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_helmet} at player's location
+				else:
+					give {_helmet} to player
+		if loop-value contains "●요구보법:":
+			set {_l1} to loop-value
+			replace all "●요구보법: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.보법}:
+				set {_helmet} to player's helmet
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's helmet to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_helmet} at player's location
+				else:
+					give {_helmet} to player
+	set {_lore::*} to uncolored lore of player's chestplate
+	loop {_lore::*}:
+		if loop-value contains "■체력:":
+			set {_hp} to loop-value
+			replace all "■체력: " with "" in {_hp}
+			set {_hp} to {_hp} parsed as number
+			add {_hp} to {Stats::%player%.체력}
+		if loop-value contains "■빙어력:":
+			set {_df} to loop-value
+			replace all "■방어력: " with "" in {_df}
+			set {_df} to {_df} parsed as number
+			add {_df} to {Stats::%player%.방어력}
+		if loop-value contains "●외공":
+			set {_oa} to loop-value
+			replace all "●외공: " with "" in {_oa}
+			set {_oa} to {_oa} parsed as number
+			add {_oa} to {Stats::%player%.방어구외공}
+		if loop-value contains "●내공":
+			set {_ia} to loop-value
+			replace all "●내공: " with "" in {_ia}
+			set {_ia} to {_ia} parsed as number
+			add {_ia} to {Stats::%player%.방어구내공}
+		if loop-value contains "●보법":
+			set {_bo} to loop-value
+			replace all "●보법: " with "" in {_bo}
+			set {_bo} to {_bo} parsed as number
+			add {_bo} to {Stats::%player%.방어구보법}
+		if loop-value contains "●레벨제한:":
+			set {_l1} to loop-value
+			replace all "●레벨제한: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {rpg.%player%.lv}:
+				set {_chestplate} to player's chestplate
+				send "&c&l레벨제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's chestplate to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_chestplate} at player's location
+				else:
+					give {_chestplate} to player
+		if loop-value contains "●요구외공:":
+			set {_l1} to loop-value
+			replace all "●요구외공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.외공}:
+				set {_chestplate} to player's chestplate
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's chestplate to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_chestplate} at player's location
+				else:
+					give {_chestplate} to player
+		if loop-value contains "●요구내공:":
+			set {_l1} to loop-value
+			replace all "●요구내공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.내공}:
+				set {_chestplate} to player's chestplate
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's chestplate to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_chestplate} at player's location
+				else:
+					give {_chestplate} to player
+		if loop-value contains "●요구보법:":
+			set {_l1} to loop-value
+			replace all "●요구보법: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.보법}:
+				set {_chestplate} to player's chestplate
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's chestplate to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_chestplate} at player's location
+				else:
+					give {_chestplate} to player
+	set {_lore::*} to uncolored lore of player's leggings
+	loop {_lore::*}:
+		if loop-value contains "■체력:":
+			set {_hp} to loop-value
+			replace all "■체력: " with "" in {_hp}
+			set {_hp} to {_hp} parsed as number
+			add {_hp} to {Stats::%player%.체력}
+		if loop-value contains "■빙어력:":
+			set {_df} to loop-value
+			replace all "■방어력: " with "" in {_df}
+			set {_df} to {_df} parsed as number
+			add {_df} to {Stats::%player%.방어력}
+		if loop-value contains "●외공":
+			set {_oa} to loop-value
+			replace all "●외공: " with "" in {_oa}
+			set {_oa} to {_oa} parsed as number
+			add {_oa} to {Stats::%player%.방어구외공}
+		if loop-value contains "●내공":
+			set {_ia} to loop-value
+			replace all "●내공: " with "" in {_ia}
+			set {_ia} to {_ia} parsed as number
+			add {_ia} to {Stats::%player%.방어구내공}
+		if loop-value contains "●보법":
+			set {_bo} to loop-value
+			replace all "●보법: " with "" in {_bo}
+			set {_bo} to {_bo} parsed as number
+			add {_bo} to {Stats::%player%.방어구보법}
+		if loop-value contains "●레벨제한:":
+			set {_l1} to loop-value
+			replace all "●레벨제한: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {rpg.%player%.lv}:
+				set {_leggings} to player's leggings
+				send "&c&l레벨제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's leggings to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_leggings} at player's location
+				else:
+					give {_leggings} to player
+		if loop-value contains "●요구외공:":
+			set {_l1} to loop-value
+			replace all "●요구외공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.외공}:
+				set {_leggings} to player's leggings
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set {_bool} to onInvFull(player)
+				set player's leggings to air
+				if {_bool} is true:
+					drop {_leggings} at player's location
+				else:
+					give {_leggings} to player
+		if loop-value contains "●요구내공:":
+			set {_l1} to loop-value
+			replace all "●요구내공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.내공}:
+				set {_leggings} to player's leggings
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set {_bool} to onInvFull(player)
+				set player's leggings to air
+				if {_bool} is true:
+					drop {_leggings} at player's location
+				else:
+					give {_leggings} to player
+		if loop-value contains "●요구보법:":
+			set {_l1} to loop-value
+			replace all "●요구보법: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.보법}:
+				set {_leggings} to player's leggings
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set {_bool} to onInvFull(player)
+				set player's leggings to air
+				if {_bool} is true:
+					drop {_leggings} at player's location
+				else:
+					give {_leggings} to player
+	set {_lore::*} to uncolored lore of player's boots
+	loop {_lore::*}:
+		if loop-value contains "■체력:":
+			set {_hp} to loop-value
+			replace all "■체력: " with "" in {_hp}
+			set {_hp} to {_hp} parsed as number
+			add {_hp} to {Stats::%player%.체력}
+		if loop-value contains "■빙어력:":
+			set {_df} to loop-value
+			replace all "■방어력: " with "" in {_df}
+			set {_df} to {_df} parsed as number
+			add {_df} to {Stats::%player%.방어력}
+		if loop-value contains "●외공":
+			set {_oa} to loop-value
+			replace all "●외공: " with "" in {_oa}
+			set {_oa} to {_oa} parsed as number
+			add {_oa} to {Stats::%player%.방어구외공}
+		if loop-value contains "●내공":
+			set {_ia} to loop-value
+			replace all "●내공: " with "" in {_ia}
+			set {_ia} to {_ia} parsed as number
+			add {_ia} to {Stats::%player%.방어구내공}
+		if loop-value contains "●보법":
+			set {_bo} to loop-value
+			replace all "●보법: " with "" in {_bo}
+			set {_bo} to {_bo} parsed as number
+			add {_bo} to {Stats::%player%.방어구보법}
+		if loop-value contains "●레벨제한:":
+			set {_l1} to loop-value
+			replace all "●레벨제한: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {rpg.%player%.lv}:
+				set {_boots} to player's boots
+				send "&c&l레벨제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's boots to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_boots} at player's location
+				else:
+					give {_boots} to player
+		if loop-value contains "●요구외공:":
+			set {_l1} to loop-value
+			replace all "●요구외공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.외공}:
+				set {_boots} to player's boots
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's boots to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_boots} at player's location
+				else:
+					give {_boots} to player
+		if loop-value contains "●요구내공:":
+			set {_l1} to loop-value
+			replace all "●요구내공: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.내공}:
+				set {_boots} to player's boots
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's boots to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_boots} at player's location
+				else:
+					give {_boots} to player
+		if loop-value contains "●요구보법:":
+			set {_l1} to loop-value
+			replace all "●요구보법: " with "" in {_l1}
+			set {_l1} to {_l1} parsed as number
+			if {_l1} > {Stat::%player%.보법}:
+				set {_boots} to player's boots
+				send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to player
+				set player's boots to air
+				set {_bool} to onInvFull(player)
+				if {_bool} is true:
+					drop {_boots} at player's location
+				else:
+					give {_boots} to player
+
+
+every 1 tick:
+	loop all players:
+		send action bar "&0닉네임 : &7%loop-player% | &6레벨 : %{rpg.%loop-player%.lv}%&1 | &1EXP : %{rpg.%loop-player%.exp}%/%{rpg.%loop-player%.ndlv}% | &b보유금액 : &6$%{money::%loop-player%}%&b원 " to loop-player
+		
+		set {_at} to 0
+		set {_athp} to 0
+		set {_cr} to 0
+		set {_oa} to 0
+		set {_ia} to 0
+		set {_bo} to 0
+		set {_lore::*} to uncolored lore of loop-player's tool
+		loop {_lore::*}:
+			if {_lore::11} is "무기":
+				if loop-value-2 contains "■공격력:":
+					set {_at} to loop-value-2
+					replace all "■공격력: " with "" in {_at}
+					set {_at} to {_at} parsed as number
+				if loop-value-2 contains "■체력흡수:":
+					set {_athp} to loop-value-2
+					replace all "■체력흡수: " with "" in {_athp}
+					set {_athp} to {_athp} parsed as number
+				if loop-value-2 contains "■치명타확률:":
+					set {_cr} to loop-value-2
+					replace all "■치명타확률: " with "" in {_cr}
+					set {_cr} to {_cr} parsed as number
+				if loop-value-2 contains "●외공":
+					set {_oa} to loop-value-2
+					replace all "●외공: " with "" in {_oa}
+					set {_oa} to {_oa} parsed as number
+				if loop-value-2 contains "●내공":
+					set {_ia} to loop-value-2
+					replace all "●내공: " with "" in {_ia}
+					set {_ia} to {_ia} parsed as number
+				if loop-value-2 contains "●보법":
+					set {_bo} to loop-value-2
+					replace all "●보법: " with "" in {_bo}
+					set {_bo} to {_bo} parsed as number
+				if loop-value-2 contains "●요구외공:":
+					set {_lr} to loop-value-2
+					replace all "●요구외공: " with "" in {_lr}
+					set {_lr} to {_lr} parsed as number
+					if {_lr} > {Stat::%loop-player%.외공}:
+						set {_weapon} to loop-player's tool
+						send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to loop-player
+						set loop-player's tool to air
+						drop {_weapon} at loop-player's location
+				if loop-value-2 contains "●요구내공:":
+					set {_lr} to loop-value-2
+					replace all "●요구내공: " with "" in {_lr}
+					set {_lr} to {_lr} parsed as number
+					if {_lr} > {Stat::%loop-player%.내공}:
+						set {_weapon} to loop-player's tool
+						send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to loop-player
+						set loop-player's tool to air
+						drop {_weapon} at loop-player's location
+				if loop-value-2 contains "●요구보법:":
+					set {_lr} to loop-value-2
+					replace all "●요구보법: " with "" in {_lr}
+					set {_lr} to {_lr} parsed as number
+					if {_lr} > {Stat::%loop-player%.보법}:
+						set {_weapon} to loop-player's tool
+						send "&c&l스텟제한에 맞지 않아 사용하실 수 없습니다." to loop-player
+						set loop-player's tool to air
+						drop {_weapon} at loop-player's location
+				if loop-value-2 contains "●레벨제한:":
+					set {_lr} to loop-value-2
+					replace all "●레벨제한: " with "" in {_lr}
+					set {_lr} to {_lr} parsed as number
+					if {_lr} > {rpg.%loop-player%.lv}:
+						set {_weapon} to loop-player's tool
+						send "&c&l레벨제한에 맞지 않아 사용하실 수 없습니다." to loop-player
+						set loop-player's tool to air
+						drop {_weapon} at loop-player's location
+
+		set {Stats::%loop-player%.공격력} to {_at}
+		set {Stats::%loop-player%.체력흡수} to {_athp}
+		set {Stats::%loop-player%.치명타확률} to {_cr}
+		set {Stats::%loop-player%.외공} to {Stat::%loop-player%.외공} + {Stats::%loop-player%.방어구외공} + {_oa}
+		set {Stats::%loop-player%.내공} to {Stat::%loop-player%.내공} + {Stats::%loop-player%.방어구내공} + {_ia}
+		set {Stats::%loop-player%.보법} to {Stat::%loop-player%.보법} + {Stats::%loop-player%.방어구보법} + {_bo}
+	
+		set loop-player's max health to 10 + {Stats::%loop-player%.체력}/2 + {rpg.%loop-player%.lv}*50 + {Stats::%loop-player%.외공}*10/2 + {Stats::%loop-player%.내공}*40/2
+		set the loop-player's walk speed to 0.21 + {Stats::%loop-player%.보법}*0.0008
