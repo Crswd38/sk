@@ -1,0 +1,43 @@
+
+command /무기설정 [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/무기설정 <공격력> <체력흡수> <치명타확률> <외공> <내공> <보법> <요구외공> <요구내공> <요구보법> <레벨제한>"
+			else:
+				if player's tool is air:
+					message "&c손에 장비를 들어주세요."
+				else:
+					set line 1 of lore of player's tool to "&c■공격력: %arg-1%"
+					set line 2 of lore of player's tool to "&4■체력흡수: %arg-2%"
+					set line 3 of lore of player's tool to "&e■치명타확률: %arg-3%"
+					set line 4 of lore of player's tool to "&3●외공: %arg-4%"
+					set line 5 of lore of player's tool to "&3●내공: %arg-5%"
+					set line 6 of lore of player's tool to "&3●보법: %arg-6%"
+					set line 7 of lore of player's tool to "&3●요구외공: %arg-7%"
+					set line 8 of lore of player's tool to "&3●요구내공: %arg-8%"
+					set line 9 of lore of player's tool to "&3●요구보법: %arg-9%"
+					set line 10 of lore of player's tool to "&b&l●레벨제한: %arg-10%"
+					set line 11 of lore of player's tool to "&c무기"
+					message "&c무기스텟을 설정했습니다."
+
+command /방어구설정 [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>] [<integer>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				message "&6/방어구설정 <방어력> <체력> <외공> <내공> <보법> <요구외공> <요구내공> <요구보법> <레벨제한>"
+			else:
+				if player's tool is air:
+					message "&c손에 장비를 들어주세요."
+				else:
+					set line 1 of lore of player's tool to "&3■방어력: %arg-1%"
+					set line 2 of lore of player's tool to "&3■체력: %arg-2%"
+					set line 3 of lore of player's tool to "&3●외공: %arg-3%"
+					set line 4 of lore of player's tool to "&3●내공: %arg-4%"
+					set line 5 of lore of player's tool to "&3●보법: %arg-5%"
+					set line 6 of lore of player's tool to "&3●요구외공: %arg-6%"
+					set line 7 of lore of player's tool to "&3●요구내공: %arg-7%"
+					set line 8 of lore of player's tool to "&3●요구보법: %arg-8%"
+					set line 9 of lore of player's tool to "&b&l●레벨제한: %arg-9%"
+					set line 10 of lore of player's tool to "&a방어구"
+					message "&c방어구스텟을 설정했습니다."
