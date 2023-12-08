@@ -2,30 +2,48 @@
 on join:
     set {영약먹는중::%player%} to false
 
-command /영약 [<integer>]:
+command /영약 [<integer>] [<integer>] [<integer>] [<integer>]:
 	trigger:
 		if player is op:
 			if arg-1 is set:
-				give paper named "영약" with lore "강도: %arg-2%" and "&5영약" to player
+				if player's tool is air:
+					message "&c손에 물건을 들어주세요."
+				else:
+					set line 1 of lore of player's tool to "&4외공: %arg-1%"
+					set line 2 of lore of player's tool to "&2내공: %arg-2%"
+					set line 3 of lore of player's tool to "&e보법: %arg-3%"
+					set line 4 of lore of player's tool to "&3복용시간: %arg-4%"
+					set line 5 of lore of player's tool to "&5영약"
+					message "영약을 설정했습니다."
 			else:
-				message "&6/영약 <수치>"
+				message "&6/영약 <외공> <내공> <보법> <복용시간>"
 
-on right click with paper:
+on right click:
 	if {영약먹는중::%player%} is true:
 		cancel event
-	if name of tool is "영약":
+	set {_영약::*} to uncolored lore of player's tool
+	if {_영약::5} of tool is "영약":
 		set {영약먹는중::%player%} to true
 		set {_영약::*} to uncolored lore of player's tool
+		replace all "외공: " with "" in {_영약::1}
+		set {_영약::1} to {_영약::1} parsed as number
+		replace all "내공: " with "" in {_영약::2}
+		set {_영약::2} to {_영약::2} parsed as number
+		replace all "보법: " with "" in {_영약::3}
+		set {_영약::3} to {_영약::3} parsed as number
+		replace all "복용시간: " with "" in {_영약::4}
+		set {_영약::4} to {_영약::4} parsed as number
 		message "영약을 먹는 중입니다"
-		loop 60 times:
+		loop {_영약::4} times:
 			if {영약먹는중::%player%} is false:
-				exit loop
-			wait a tick
+				exit
+			wait a second
 		message "영약을 먹었습니다!"
 		set {영약먹는중::%player%} to false
-		replace all "강도: " with "" in {_영약::1}
-		set {_영약::1} to {_영약::1} parsed as number
-		remove 1 paper named "영약" with lore "강도: %{_영약::1}%" and "&5영약" from the player
+		add {_영약::1} to {Stat::%player%.외공}
+		add {_영약::2} to {Stat::%player%.내공}
+		add {_영약::3} to {Stat::%player%.보법}
+		remove 1 of player's tool with lore "&4외공: %{_영약::1}%" and "&2내공: %{_영약::2}%" and "&e보법: %{_영약::3}%" and "&3복용시간: %{_영약::4}%" and "&5영약" from the player
 
 on player move:
     if {영약먹는중::%player%} is true:
