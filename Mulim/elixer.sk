@@ -43,7 +43,7 @@ on right click:
 		add {_영약::1} to {Stat::%player%.외공}
 		add {_영약::2} to {Stat::%player%.내공}
 		add {_영약::3} to {Stat::%player%.보법}
-		remove 1 of player's tool with lore "&4외공: %{_영약::1}%" and "&2내공: %{_영약::2}%" and "&e보법: %{_영약::3}%" and "&3복용시간: %{_영약::4}%" and "&5영약" from the player
+		remove 1 of item with lore "&4외공: %{_영약::1}%" and "&2내공: %{_영약::2}%" and "&e보법: %{_영약::3}%" and "&3복용시간: %{_영약::4}%" and "&5영약" from player's inventory
 
 on player move:
     if {영약먹는중::%player%} is true:
