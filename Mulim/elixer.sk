@@ -20,7 +20,7 @@ command /영약 [<integer>] [<integer>] [<integer>] [<integer>]:
 
 on right click:
 	if {영약먹는중::%player%} is true:
-		cancel event
+		exit
 	set {_영약::*} to uncolored lore of player's tool
 	if {_영약::5} is "영약":
 		set {영약먹는중::%player%} to true
